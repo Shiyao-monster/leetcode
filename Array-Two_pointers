@@ -1,0 +1,87 @@
+//Two Pointers
+
+同向：  processed & needed  | processed & No Needed  |          unknown
+       0     [0, i)  ->    i        [i, j)  ->      j     [j, array.length) ->  n
+       
+反向：  processed            |        unknown        |          processed
+       0         ->         i            <-         j          n                 
+       
+
+***Ask before do it: 要问处理的数据是否要保持原数据顺序是否一致  - 是 -> 同向
+要保持闭合[)一致
+i,j 表示当前都是未处理的，左右是处理过的,
+
+同向：
+
+Initialize two pointers i and j, usually both equal to 0
+while j < array.length:
+     考虑下i==0的情况
+if we need array[j], then we keep it by assigning array[i] = array[j], and move i forward, make it ready at the next position
+最后可以简化。
+
+反向：
+其中 [0, i) 和 (j, array.length -1] 内的数据均为处理好的数据，[i, j] 中的数据待处理。
+用此方法处理过的数组**不会**保留原来元素的相对位置。解题步骤如下：
+
+Initialize two pointers i = 0, j = array.length – 1
+while i <= j:   // 当总数为奇数，才会出现i=j，看中间位置需不需要处理来决定要不要=
+Decide what you should do based on the value of array[i] and array[j]  //例如选取较小的
+Move at least one pointer forward in its direction
+
+
+
+//************************************************************************
+Example:
+同向：
+//@26 Remove Duplicates From Sorted Array with O(1) extra
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        int j = 0;
+        while (j < nums.length) {
+            if (i==0) {
+                i++;
+                j++;
+            } else if (nums[j] == nums[i-1]) {
+                j++;
+            }
+            else {
+                nums[i] = nums[j];
+                i++;
+                j++;
+            }
+        }
+    return i;
+    }
+
+
+
+反向：
+@344 Reverse String with O(1) extra space so use in-place alogrithm
+//wrong, since it need O(n) extra space for create output[]
+public String reverse(char[] input) {
+  int size = input.length;
+  int i = 0;
+  int j = size - 1;
+  char[] output = new char[size];
+  while (j>=0) {
+      output[i] = input[j];
+      j--;
+      i++
+  }
+  return output;
+}
+ // correct, using in-place alogrithm by creating constant for O(1);
+    public void reverseString(char[] s) {
+        int i = 0;
+        int j = s.length - 1;
+        while (i < j) {
+            char temp =  s[j];
+            s[j] = s[i];
+            s[i] = temp;
+            i++;
+            j--;                        
+        }   
+    }
+
+
+
