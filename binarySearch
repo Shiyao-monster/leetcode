@@ -1,0 +1,166 @@
+what is binary search:
+search in an ordered array with O(logN)
+
+binary seach两大基本原则：
+    每次都要缩减搜索空间
+    每次缩减都不能排除潜在答案
+    
+mid = l + (r - l) / 2
+
+三大模版：
+1.找一个准确值：
+    循环条件： l <= r
+    缩减搜索空间：l = mid + 1; r = mid - 1  
+
+2. 找一个模糊值（比4大的最小数/第一次出现4的index）：限于是单向的
+    循环条件：l < r
+    缩减搜索空间：l = mid; r = mid - 1 或者： l = mid + 1; r = mid  // 需要分析  // return l; Since 循环结束时 l=r， mid 还在上一步，没有更新。
+    
+3. 万用型： （找 closet to 2 ）这个是双向的    // 1,2 都可以用3来代替
+    循环条件：l < r - 1;  // 所以最后结果是留下两个相邻位置的值 indexi or indexj
+    缩减搜索空间：l = mid ; r = mid;  //通过if() to determine return i or j
+
+*****总结就是： 先走逻辑，看搜索空间的条件， l= X, .. （如果能直接清楚是哪个模版更好，有的时候不清楚，就只能捋逻辑，看l,r的。。）
+              再决定 循环条件是否存在等号，看 l,r 是否有 但凡=mid，都没有等号
+
+    
+eg: int k = 2
+1.  find 2
+public int binarySearch(int[] array, int k) {
+    int l = 0;
+    int r = array.length - 1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (array[mid] = k) {
+            return mid;
+        } else if (array[mid] > k) {
+            r = mid - 1;
+        } else {
+            l = mid + 1;
+        }
+    }
+}
+
+
+2. 找模糊值： first occurance of 2   //在出while的时候，l = r; so we can return l or r. But can't return mid since it lose the last change
+public int firstSeach(int[] array, int k) {
+    int l = 0;
+    int r = array.length - 1;
+    while (l < r) {
+    int mid = l + (r - l) / 2;
+    if (array[mid] = k ) {
+        r = mid;
+    } else if (array[mid] < k) {
+        l = mid + 1;
+    } else {
+      r = mid;
+    }
+    return l;
+}
+
+可简化
+
+last occurance of 2
+public int lastSeach(int[] array, int k) {
+    int l = 0;
+    int r = array.length - 1;
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (array[mid] > k ){
+            r = mid - 1;
+        } else {
+            l = mid;
+        }
+    }
+    return l;
+}
+
+3. 万能型 （closet to 2）
+public int binarySearch(int[] array, int k) {
+    int l = 0;
+    int r = array.length - 1;
+    while (l < r - 1) {
+        int mid = l + (r - l) / 2;
+        if (arrat[mid] > k) {
+            r = mid;
+        } else {
+            l = mid;
+        }
+    }
+    if (array[l] > k) {
+        return l;
+    } else if (array[r] < k) {
+        return r;
+    } else {
+        return k - array[l] < array[r] - k ? i:j;
+    }
+}
+
+//********************************************
+@1062 longest Repeating Substring
+Giving a string s, find out the length of the longest repeating substring. Return 0 if no repeating substring exists.
+**  length of the longest repeating, so we can set mid is the length, and f(mid) tell us if mid length have valid substring or not. Yes, then l=mid； No, r=mid-1
+public int longestRepeatingSubstring(String s) {
+    int l = 0;
+    int r = s.length() - 1;
+    while(l < r) {
+        int mid = l + (r - l) / 2;
+        if (f(s,mid)) {
+            l = mid;
+        } else {
+            r = mid - 1;
+        }
+    }
+    return l;
+}
+
+public boolean f(String s, int length) {
+    Set<String> seen = new HashSet<>();  //用HashSet来查虫
+    for (int i = 0; i <= s.length() - length; i++) {
+        int j = i + length - 1;
+        String sub = s.substring(i, j + 1);
+        if (seen.contains(sub)) {
+            return true;
+        }
+        seen.add(sub);
+    }
+    return false;
+}
+
+
+//更多类似题：
+@410； 1231； 852； 1011； 1292；
+        
+
+
+            
+    
+
+
+
+            
+
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
