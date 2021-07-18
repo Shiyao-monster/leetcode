@@ -137,7 +137,7 @@ public static int[] asteroid(int[] T) {
       return output;
    }
 
-//但其实老师的也差不多 // 但是我思考的还是不全面
+//但其实老师的也差不多 // 但是我思考的还是不全面 // O(n), 即使有while,但是里面的stack 每次都是o(1)
    public int[] asteroidCollision(int[] asteroids) {
       Deque<Integer> stack = new ArrayDeque<>();
       for(int ast : asteroids) {
@@ -166,7 +166,8 @@ public static int[] asteroid(int[] T) {
    }
 
                               
-                              
+@more 
+20;496;503;384;636;84
                   
 
 
