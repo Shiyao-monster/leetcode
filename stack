@@ -1,4 +1,5 @@
 stack
+method:peek, push,pop
 Last in First Out
 适用于需要记录之前的状态，必要时可以回到之前的状态，或利用之前的值
 不能用index,每次只能拿到top元素
