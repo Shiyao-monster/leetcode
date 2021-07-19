@@ -1,0 +1,127 @@
+// Tree BFS
+类似于linked List， 但是可以有很多子节点
+
+tree can not loop
+只有一个入口: root
+
+****99% Tree problem are Binary Tree and don't have parent point
+
+class TreeNode {
+   int val;
+   TreeeNode left;
+   TreeNode right'
+}
+
+BFS:
+@102 Binary Tree Level Order Traversal
+
+Given binary tree [3,9,20,null,null,15,17]
+return as [[3],[9,20],[15,7]]
+
+Steps:
+1. Initialize Queue with all entry points //  entry : Tree is the root;  Graph is all 入口 
+2. While queue is not empty
+    a. for each node in the queue (currently)
+    b. poll out the element (add to result);  //相当于把parent node (大盒子) 先加入, 在c,拆开parent
+    c. expand it, offer children to the queue in order(from left to right/ right to left)
+    d. increase level
+    
+
+
+public List<List<Integer>> levelOrder(TreeNode root) {
+    List<List<Integer>> res = new ArrayList<>();
+    if (root == null) {
+        return res;
+    }
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    
+    while(!queue.isEmpty()) {
+        int size = queue.size();  //当前大盒子的个数
+        List<Integer> level = new ArrayList<>();  //当前层
+        for (int i = 0; i < size; i++) {  
+            TreeNode cur = queue.poll();
+            level.add(cur.val);
+            if (cur.left != null) {
+                queue.offer(cur.left);
+            }
+            if (cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
+        res.add(level);
+    }
+    return res;
+}
+
+// ***********************************
+@104: Maximum Depth of Binary Tree
+
+public int depth(TreeNode root) {
+    if (root == null) {
+        return 0;
+    }
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    int depth = 0;
+    
+    while(!queue.isEmpty()) {
+        int size = queue.size();     
+        for (int i = 0; i < size; i++) {  
+            TreeNode cur = queue.poll();
+            if (cur.right != null) {
+                queue.offer(cur.left);
+            }
+            if (cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
+        depth++;
+    }
+    return depth;
+}
+
+//*********************************
+@199 Binary Tree RIght Side View
+//找出每一层最右边的Tree Node
+
+public List<Integer> rightSideView(TreeNode root) {
+    List<Integer> res = new ArrayList<>();
+    if (root == null) {
+        return res;
+    }
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    
+    while(!queue.isEmpty()) {// 每次while一下，就是1层
+        int size = queue.size();  
+        res.add(queue.peek().val);
+        for (int i = 0; i < size; i++) {  
+            TreeNode cur = queue.poll();
+            if (cur.right != null) {  // 因为是从右向左
+                queue.offer(cur.right);
+            }
+            if (cur.left != null) {
+                queue.offer(cur.left);
+            }
+        }
+    }
+    return res;
+}
+
+//***********************************************************
+@more:
+101, 103, 111, 515, 429
+
+
+
+
+
+
+
+
+
+
+
+
+   
