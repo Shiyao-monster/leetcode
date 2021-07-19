@@ -1,0 +1,88 @@
+HashMap:
+       *use Array + LinkedList with O(1) to crud
+       *插入的是key是没顺序的
+LinkedHashMap:
+       * 有顺序的hash map, 遍历顺序是key插入顺序
+       * all key are stored to a double linkedlist
+       
+ TreeMap:
+       * 有顺序的map, 遍历顺序是key从小到大
+       * all key are stored to a self-balance binary tree(红黑树)
+       * crud with O(logN)
+ Hash Set:
+       * a hashmap with no value 
+       
+       
+       
+       
+       
+ When to use HashMap
+ **Quick to crud
+ ？注意要查找的数据实现了equals and hashCode
+   用equals(): student A and student B have same name, if we think they are same person
+   So need to use equals and hashcode to compare their name
+   
+ 
+ Array vs Map
+ Array bad: cannot check quick
+ Array good: array 里的元素是有顺序的， array‘s overhead (占用资源) is smaller
+ 所以没有必要的时候， 大多用array
+ 
+ //*********************************************
+ @1 Two Sum
+ method 1:   O(n^2)
+ Use two for loop
+  for x in array:
+     for y in array:
+         if index(x)!=index(y) && index(x)+index(y)=sum .....
+
+ method 2: 时间： O(n) 空间： O(n)，since we create a map, the worst sitiation is add all of array to the map
+   for loop 一遍，hashMap to get the another value and index
+   
+   key = 值， value=index
+   
+   public int[] twoSum(int[] nums, int target) {
+       Map<Integer, Integer> map = new HashMap<>();
+       for(int i = 0; i < nums.length; i++ ) {
+           if (map.containsKey(target - nums[i])) {
+               return new int[]{map.get(target-nums[i]), i}
+           map.put(nums[i],[i]);  //这步是加入值
+       }
+       return new int[2];
+   }
+   
+ Method3:, 如果return 不是index 而是value--  Time:O(N), space: O(1)
+ Two pointers (array need to be sorted), opposite direction
+ Arrays.sort(nums);
+ case1: arr[i] + arr[j] == target;
+ case2: arr[i] + arr[j] < target, then move forward the left pointet i++
+ case3: arr[i] + arr[j] > target, then move forward the right pointet i++
+ 
+ 
+ //*****************************************
+ @560 Subarray Sum Equals K
+ 求subarray的个数
+ Subarry should be a 连续的 , [i,j]   = [0,j] - [0,i)
+ so we need to record all of [0,i)的sum, 用[0,j].sum - K, 看看是否存在于已记录的[0,i)sum
+ 因为求subarray的个数， so key=[0,i)sum, val=出现的个数，
+ 
+ 需要添加（0，1），代表sum=0默认出现了一次  //比如array=[1], k=1. 需要找map中 1-1 有没有0
+ 
+ public int subarraySum(int[] nums, int k) {
+     Map<Integer, Integer> map = new HashMap<>();
+     map.out(0,1);
+     int sum = 0, res = 0;
+     for (int x : nums) {
+         sum += x;
+         if (map.containsKey(sum - k)) {
+             res += map.get(sum-k);
+         }
+         map.put(sum, map.getOrDefault(sum,0) + 1); //map.getOrDefault(sum,0) 是 map.get(key), 如果没有key,则default value = 0
+     }
+     return res;
+ }
+     
+ 
+ @more:
+ 3; 49; 138; 340; 554; 535
+ 
