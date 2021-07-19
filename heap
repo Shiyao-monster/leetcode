@@ -101,7 +101,8 @@ public ListNode mergeKLists(ListNode[] lists) {
  }
     
 
-
+@more
+347;253;295;767;703
 
 
 
