@@ -1,0 +1,33 @@
+Graph
+ 肯能是闭合的图
+ 没有固定入口
+
+
+Graph representation
+Adjacency Matrix, or Adjanceny List
+ 
+ Adjanceny List: (List can be repalced by Set)
+ * List<T>[n]  需要知道节点是多少
+ * Map<T, List<T>>  好处是不知道有多少节点
+ 
+ BFS：
+ 因为是水平展开所有nodes,所以舍和找最短路径（只适用于每条边的edige weight 都一样）
+ 会把每个edge都过一遍
+ 
+ BFS 模版： Time complexity O(V+E)
+ 1. Initialize a queue with all starting points, a HashSet to record visited node;
+ 2. While queue is not empty
+    a. Retrieve current queue size as number of nodes in the current level
+    b. for each node in current level
+        i. Poll out one node
+       // ii. If this is the node we want, return it
+        iii. Offer all its neighbor to the queue if not visited and valid (如左上角，不能选左边了)
+    c. increase level
+
+ tip:
+ for 2D matrix， normally matrix[i][j]'s neightbors are 4, 
+ so create a direction array {{0,1},{1,0},{0,-1},{-1,0}}  : {rwo, column}
+
+ //******************************************8
+ @542 : 01Matix
+  Given a 01 matrix , find the distance of the nearest 0 for each cell.
