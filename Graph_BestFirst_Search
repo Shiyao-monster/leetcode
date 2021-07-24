@@ -1,0 +1,10 @@
+//Graph_BestFirst_Search
+For non-uniform cost graph
+每次快速计算最优  -》 heap   （算法又称：Digsktra's Algorithm）
+
+和BFS模版区别就是， 把queue换成heap
+offer(node's cost + edge cost)
+一个node可以被添加多次，但是只能展开一次
+
+Time O((E+V)logV)    Space: O(V)
+
