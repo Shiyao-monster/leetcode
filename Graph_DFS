@@ -1,0 +1,134 @@
+Graph DFS
+General Steps:
+1.Initialize HashSet to record visited nodes
+2. For all entry nodes, call dfs():
+   Base case, return  //
+//Do Something (Pre-order)
+  For each neighbor node:
+    i. Validate neighbor node, if visited or invalid or answer node, don't recurse on it or return answer
+    ii. Recurse down on neighbor node —+ dfs(neighbor)
+//Do Something (Post-order)
+
+DFS traverse graph 一般是常数次次，所以Time Complexity O(N * k), k = max(time(b), time(d))
+b, d是unknow which are from the problem 
+like one loop, then k, 
+     2 for loop,    K^2
+     
+     
+//*************************************************************
+@200 number of islands    Time: O(m*n) 把每个1都遍历一遍
+2d array, i is land, 0 is water. land 只能上下左右
+
+int[][] dirs = {{0,1},{1,0},{0,-1},{-1,0}}
+public int numIsLands(charp[][] grid) {
+    int count = 0;
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j > grid[0].length; j++) {
+            if (grid[i][j] == '1') {
+                count++;
+                dfs(grid, i, j);
+            }
+        }
+    }
+    return count;
+}
+private void dfs(char[][] grid, int i, int j) {
+    grid[i][j] = '0'; // 访问过了，所以改成0
+    for(int[] dir:dirs) {
+        int x = i + dir[0], y = j + dir[1];
+        if (x < 0|| x >= grid.length || y < 0 || y>= gird[0].length || gird[x][y] == '0' ) {
+            continue;
+        }
+        dfs(grid, x, y);
+    }
+}
+
+
+//*************************************************************
+@332 Reconstruct Itineray
+2d array, [from, to]
+每个机票必须用1次，且只能用一次
+如果有多个顺序，则选择 smaller lexical
+import java.util.*;
+public class Main {
+   public static void main(String[] args) {
+      List<List<String>> tickets = new ArrayList<List<String>>();
+      List<String> a = new ArrayList<>();
+      a.add("JFK");
+      a.add("SFO");
+      List<String> b = new ArrayList<>();
+      b.add("SFO");
+      b.add("NRT");
+      List<String> c = new ArrayList<>();
+      c.add("NRT");
+      c.add("JFK");
+      List<String> d = new ArrayList<>();
+      d.add("JFK");
+      d.add("PVG");
+      tickets.add(0, a);
+      tickets.add(0, b);
+      tickets.add(0, c);
+      tickets.add(0, d);
+         List<String> res = findItinerary(tickets);
+         System.out.println(res);
+         List<List<String>> tickets1 = new ArrayList<List<String>>();
+      List<String> a1 = new ArrayList<>();
+      a1.add("MUC");
+      a1.add("LHR");
+      List<String> b1 = new ArrayList<>();
+      b1.add("JFK");
+      b1.add("MUC");
+      List<String> c1 = new ArrayList<>();
+      c1.add("SFO");
+      c1.add("SJC");
+      List<String> d1 = new ArrayList<>();
+      d1.add("LHR");
+      d1.add("SFO");
+      tickets1.add(0, a1);
+      tickets1.add(0, b1);
+      tickets1.add(0, c1);
+      tickets1.add(0, d1);
+      List<String> res1 = findItinerary(tickets1);
+         System.out.println("*******************");
+         System.out.println(res1);
+       
+   }
+   public static List<String> findItinerary(List<List<String>> tickets) {
+      Map<String, PriorityQueue<String>> map = new HashMap<>();
+      for (List<String> edge : tickets) {
+         map.computeIfAbsent(edge.get(0), k -> new PriorityQueue<>()).offer(edge.get(1));
+      }
+      List<String> res =new LinkedList<>();
+      dfs(res, map, "JFK");
+      return res;
+   }
+
+   private static void dfs(List<String> res, Map<String, PriorityQueue<String>> map, String cur) {
+      PriorityQueue<String> nei = map.getOrDefault(cur, new PriorityQueue<>());
+      while (!nei.isEmpty()) 
+         dfs(res, map, nei.poll());
+      res.add(0, cur);
+   }
+}
+
+
+//******************************************************
+@more
+133 399 785 841
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            
