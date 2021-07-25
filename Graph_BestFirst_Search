@@ -4,7 +4,141 @@ For non-uniform cost graph
 
 和BFS模版区别就是， 把queue换成heap
 offer(node's cost + edge cost)
-一个node可以被添加多次，但是只能展开一次
 
-Time O((E+V)logV)    Space: O(V)
+
+
+每个node的值一样，0 cost or .., 但是每条边的cost 不一样，
+
+
+
+
+
+
+General Steps:
+1.
+2.
+Initialize a Heap with all starting points marked with some initial costs, a
+HashSet to record visited nodes
+While heap is not empty
+      Poll out one node
+      If it has already been expanded (visited), skip it
+      Otherwise mark the node as visited, update its cost
+      //If this is the destination node, return
+      For all of its neighbors, offer them in to the heap with current node's cost + edge cost
+
+//****************************************************************
+
+@743 Network Delay Time Time O((E+V)logV)    Space: O(V)
+
+// construct the map, for each edge(scr, dst, cost)  
+    map[scr] = {dst, cost}
+
+
+class Cell implements Comparable<Cell> {
+    int node, time;
+    Cell(int node, int time) {
+        this.node  = node;
+        this.time = time;
+     public int compareTo(Cell c2) {
+          return time - c2.time;
+      }
+ }
+ 
+ public int newwotkDelayTime(int[][]times, int N, int start) {
+    Map<Integer, List<Cell>> map = HashMap<>();
+    for (int[] time : times) {
+        List<Ce11> edges = map.getOrDefault(time[0], new ArrayList<>());
+        edges.add(new Cell(time[1], time[2]));
+        map.put(time[0], edges);
+    }
+    
+    Map<Integer, Integer> visited = new HashMap<>();
+    PriorityQueue<Cell> heap = new PriorityQueue<>();
+    heap.offer(new cell<start, 0>);
+    while (!heap.isEmpty()) {
+        Cell cur = heap.poll();
+        if (visited.containsKey(cur.node)) 
+            continue;
+        visited.put(cur.node, cur.time);
+        if (map.containsKey(cur.node)) {
+            for (cell nei : map.get(cur.node)) {
+                if (!visited.containsKey(nei.node)) {
+                    heap.offer(new Cell(nei.node, cur.time + nei.time))
+                }
+            }
+        }
+    }
+    if (visited.size() != N) {
+        return -1;
+    }
+     int res = 0;
+     for (int x : visited.values()) 
+         res = Math.max(res, x);
+     return res;
+ }
+
+
+
+//****************************************************************
+@787 Cheapest Flights Within K Stops
+// 如果cell 的值都是int, 可以写成int[]
+class Cell implements Comparable<Cell> {
+    int node, stop, price ;
+    Cell(int node, int stop, int price) {
+        this.node  = node;
+        this.stop = stop;
+        this.price = price;
+     public int compareTo(Cell c2) {
+          return price - c2.price;
+      }
+ }
+ 
+ // int[][]times 是题中给的map [[node, nei, cost], [node, nei, cost]]
+ public int newwotkDelayTime(int[][]times, int N, int start, int dst, int k) {
+    Map<Integer, List<int[]>> map = HashMap<>();
+    for (int[] time : times) {
+        List<int[]> edges = map.getOrDefault(time[0], new ArrayList<>());
+        edges.add(new int[] {time[1], time[2]});
+        map.put(time[0], edges);
+    }
+    //因为图是无环的，不会死循环， 所以可以不用visited hashmap
+    PriorityQueue<Cell> heap = new PriorityQueue<>();
+    heap.offer(new cell<start, k, 0>);
+    while (!heap.isEmpty()) {
+        Cell cur = heap.poll();
+        if (cur.node == dst  )
+            return cur.price;
+        if (cur.stop > 0 && map.containsKey(cur.node)) {
+            for (int[] nei : map.get(cur.node)) {
+                heap.offer(new Cell(nei[0], cur.stop - 1, cur.price + nei[1]))    
+            }
+        }
+    }
+     return -1;
+ }
+
+//*************************
+@more
+ 264  373  778  378
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
