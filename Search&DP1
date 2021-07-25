@@ -1,0 +1,125 @@
+Search:
+
+当一个大问题是由多个子问题构成时，我们可以通过不断分解问题来最终构建我们
+想求的大问题。这个过程称为搜索(Search)
+搜索空间(Search space)可以用Tree的形式展现出来，便于理解。
+时间复杂度取决于这棵树的深度和每个node的children个数。
+
+*****Search最重要的是定义好状态，保证每个子问题都能用一个状态来描述
+
+//**************************************************************
+@78  subsets  O(2^n)
+每一个Node 代表一个状态 -> （index, current_subset）
+
+****Top Down DFS
+1. 定义状态
+2. 初始状态
+3. call dfs
+
+dfs(state):
+1. If index == n, add subset to result, return
+2. For each subproblem x
+   a. Update state = new_state_x
+       i. (index + 1, current_subset)
+       ii. (index + 1, current_subset.add(set[i]))
+   b. Branch down ->call dfs(next_state_x)
+   c. Resotre state
+   
+ 
+ public List<List<Integer>> subsets(int[] nums) {
+     List<List<Integer>> res = new ArrayList<>();
+     dfs(res, nums, new ArrayList<>(), 0)
+     return res;
+ }
+ 
+ private void dfs(List<List<Integer>> res, int[] nums. List<Integer> cur, int index)
+     if (index >= num.length) {
+         res.add(new ArrayList<>(cur));
+         return;
+     }
+     
+     cur.add(nums[index]);
+     dfs(res, nums, cur, index + 1);
+     cur.remove(cur.size() - 1);
+     
+     dfs(res, nums, cur, index+1);
+ }
+ 
+//***************************************************************
+ DP(DynamicProgramming) 通过子问题答案构建大问题答案
+如果我们searchspace有重复子问题的话，可以记录下这些子问题的答案来保证不
+会重复计算多次。所以DP也被称为search+Memoizationo
+如此一来，时间复杂度就取决于子问题的个数。
+搜索空间(Searchspace)可以用Tree的形式展现出来，便于理解。
+所有DP都可以写成BottomUpDFS的形式。
+重中之重任然是定义好状态
+
+
+
+Bottom Up DFS
+1. Define STATE of subproblems
+2. Initialize memo to record calculated subproblems
+3. Return dfs(top_level_answer_state)
+
+dfs(state):
+Base case check
+*If current problem is calculated, return its answer
+For each subproblem x
+    a. Ask subproblem for their answers call dfs(subproblem_state)
+    b. Build up current state problem answer based on subproblem answers
+*Store current problem answer
+
+ 
+ //********************************************************
+ @139 Word Break
+
+
+对于单个Array或者string来说，一般只有2种状态定义：
+i=index or problem_length  ->  dp[i]代表array[0，i)的答案
+2．i,j=indexes   -> dp[i][j] 代表array[i]～array[j]这段subarray的答案
+
+
+我们先从定义1开始考虑，尝试是否可行
+比如我们现在处于状态i -> if we can break the word.substring(0,i)
+记住DP一定是利用子问题的答案构建当前大问题答案
+
+****** 识别结果 1******
+
+Boolean[] memo;
+public boolean wordBreak(String s, List<String> wordDict) {
+    int n = s. length();
+    memo = new  Boolean[n + 1]; //因为是0-n
+    return dfs(s, n, new HashSet<>(wordDict));   //Set 可以O（1）时间查找
+}
+
+private boolean dfs(String s, int len, Set<String> dict) {
+    if (len == O) {
+        return true;
+    }
+    if (memo[len] != null) {
+        return memo[len];
+    }
+    
+    memo[len] = false;
+    for (int i = 0; i < len; i++) {
+        boolean right = dict.contains(s.substring(i, len));
+        if (! right) {
+            continue;
+        }
+        
+        boolean left = dfs(s, i, dict);
+        if (left) {
+            memo[len] = true;
+            break;
+         }
+    }
+    return memo[len];
+  }
+
+
+//**********************************
+@more
+ 90 22 746 70 35
+ 
+ 
+ 
