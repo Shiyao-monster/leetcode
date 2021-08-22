@@ -1,0 +1,11 @@
+Array Shift:
+      k % size;
+2D array and shift:  @1260
+      rowNum = grid.length;
+      colNum = grid[0].length;
+      for (int i = start; i < start + size; i++) {
+          indexRow = (i % size ) % rowNums;
+          indexCol = (i % size) % colNums;
+          list.add(grid[indexRow][indexCol])
+      }
+      
